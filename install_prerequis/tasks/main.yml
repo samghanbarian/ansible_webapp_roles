@@ -1,0 +1,16 @@
+---
+# tasks file for install_prerequis
+ - name: Install pre-requisite packages
+   yum:
+     name: "{{item}}"
+     state: present
+   loop:
+     - yum-utils
+     - device-mapper-persistent-data
+     - lvm2
+     - git
+     - python3
+ - name: "install selinux-python"
+   yum:
+     name: libselinux-python3
+     state: present

@@ -1,0 +1,38 @@
+---
+# tasks file for install_docker
+
+    - name: download pip script
+      get_url: 
+        url: https://bootstrap.pypa.io/pip/3.5/get-pip.py
+        dest: /tmp/get-pip.py
+
+    - name: install python-pip
+      command: python3 /tmp/get-pip.py
+
+    - name: Install docker python
+      pip:
+        name: docker-py
+        executable: /usr/local/bin/pip
+      # when: docker_py_check.rc != 0
+
+    - name: Add Docker CE repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+        
+    - name: Install Docker
+      yum: 
+        name: docker 
+        state: latest
+
+    - name: Start and enable the Docker daemon
+      service: 
+        name: docker 
+        state: started 
+        enabled: yes
+
+    - name: Add remote user to docker group
+      user:
+        name: "{{ ansible_user }}"
+        groups: dockerroot
+        append: yes
