@@ -1,0 +1,9 @@
+---
+- name : app deployment with docker container on  prod group
+  hosts: prod
+  become: yes
+  tags: webapp v6
+  roles: 
+    - install_prerequis
+    - install_docker
+    - deploy_web_app
